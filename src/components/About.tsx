@@ -2,7 +2,8 @@ import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef } from 'react';
 import profileImage from '@/assets/nitchu.jpg';
-import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card";
+import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card"
+import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid";
 
 const About = () => {
   const ref = useRef(null);
@@ -31,19 +32,13 @@ const About = () => {
     { value: "100%", label: "Passion", color: "from-amber-400 to-orange-500" },
   ];
 
-  const highlights = [
-    { text: "I'm a Computer Science undergraduate passionate about building scalable solutions that solve real-world problems using data." },
-    { text: "I specialize in Python, SQL, Data Engineering, and Generative AI, applying Machine Learning, NLP, and Big Data techniques." },
-    { text: "Outside coding, I enjoy hackathons, exploring new AI models, and analyzing datasets to uncover actionable insights." }
-  ];
-
   return (
     <section 
       id="about" 
       ref={ref}
       className="min-h-screen py-24 px-4 sm:px-6 lg:px-8 bg-black flex items-center relative overflow-hidden"
     >
-      {/* Subtle Background Effects */}
+      {/* Background Effects */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-emerald-500/5 rounded-full blur-3xl"></div>
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-teal-500/5 rounded-full blur-3xl"></div>
@@ -64,98 +59,89 @@ const About = () => {
           <div className="w-24 h-1.5 bg-gradient-to-r from-emerald-400 via-teal-500 to-cyan-500 mx-auto rounded-full" />
         </motion.div>
 
-        {/* Single Large 3D Glassmorphic Card */}
+        {/* Main Grid */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
-          className="flex justify-center"
+          className="grid lg:grid-cols-2 gap-20 items-center max-w-6xl mx-auto"
         >
-          <CardContainer className="inter-var w-full max-w-6xl">
-            <CardBody className="w-full min-h-[600px] lg:min-h-[700px] rounded-3xl bg-gradient-to-br from-white/10 to-white/5 border border-white/15 shadow-2xl backdrop-blur-xl relative p-8 lg:p-12">
-              <CardItem translateZ="20" className="w-full h-full">
-                
-                {/* Content Grid Inside the 3D Card */}
-                <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center h-full">
-                  
-                  {/* Image Section */}
-                  <motion.div variants={itemVariants} className="flex justify-center">
-                    <CardItem translateZ="80" className="relative">
-                      <div className="w-[280px] md:w-[360px] lg:w-[400px] h-[280px] md:h-[360px] lg:h-[400px] rounded-3xl overflow-hidden shadow-2xl">
-                        <img
-                          src={profileImage}
-                          alt="Profile"
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                    </CardItem>
-                  </motion.div>
+          {/* Image Card */}
+          <motion.div variants={itemVariants} className="flex justify-center lg:justify-start">
+            <CardContainer className="inter-var">
+              <CardBody className="w-[340px] md:w-[500px] h-[800px] md:h-[540px] rounded-3xl bg-gradient-to-br from-white/5 to-white/10 border border-white/10 shadow-2xl relative">
+                <CardItem translateZ="80" className="relative w-full h-full flex items-center justify-center">
+                  <img
+                    src={profileImage}
+                    alt="Profile"
+                    className="w-[90%] h-[90%] object-cover rounded-2xl shadow-2xl"
+                  />
+                </CardItem>
+              </CardBody>
+            </CardContainer>
+          </motion.div>
 
-                  {/* Text Content Section */}
-                  <motion.div variants={itemVariants} className="space-y-8">
-                    
-                    {/* Highlights */}
-                    <CardItem translateZ="40" className="space-y-6">
-                      {highlights.map((highlight, index) => (
-                        <motion.div
-                          key={index}
-                          className="group p-6 rounded-2xl bg-gradient-to-br from-white/15 to-white/8 backdrop-blur-sm border border-white/20 hover:border-white/30 transition-all duration-500"
-                          initial={{ opacity: 0, x: -20 }}
-                          animate={isInView ? { opacity: 1, x: 0 } : {}}
-                          transition={{ delay: 0.3 + index * 0.1, duration: 0.5 }}
-                          whileHover={{ y: -3 }}
-                        >
-                          <p className="text-gray-200 text-base md:text-lg leading-relaxed font-medium">
-                            {highlight.text}
-                          </p>
-                        </motion.div>
-                      ))}
-                    </CardItem>
+          {/* Writeup + Stats */}
+          <motion.div variants={itemVariants} className="space-y-12">
+            {/* Narrative Paragraph */}
+            <div className="space-y-6 max-w-3xl">
+              <motion.p
+                initial={{ opacity: 0, x: -20 }}
+                animate={isInView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.8 }}
+                className="text-lg md:text-xl leading-relaxed text-gray-300 border-l-4 border-transparent bg-gradient-to-b from-emerald-500/40 to-cyan-500/40 pl-6 rounded-md"
+              >
+                I’m a <span className="font-semibold bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">Computer Science undergraduate</span> passionate about building scalable solutions that solve real-world problems through data and intelligent systems. With strong expertise in <span className="font-semibold text-white">Python, SQL, Data Engineering, and Generative AI</span>, I apply Machine Learning, NLP, and Big Data techniques to create impactful applications.
+              </motion.p>
 
-                    {/* Stats */}
-                    <CardItem translateZ="60" className="grid grid-cols-3 gap-4 lg:gap-6">
-                      {stats.map((stat, index) => (
-                        <motion.div
-                          key={index}
-                          className="group p-4 lg:p-6 rounded-2xl border border-white/25 text-center bg-gradient-to-br from-white/20 to-white/10 backdrop-blur-sm hover:border-white/40 transition-all duration-500"
-                          whileHover={{ scale: 1.05, y: -3 }}
-                        >
-                          <div className={`text-2xl lg:text-3xl xl:text-4xl font-bold bg-gradient-to-r ${stat.color} bg-clip-text text-transparent mb-1`}>
-                            {stat.value}
-                          </div>
-                          <div className="text-sm lg:text-base text-gray-300 font-semibold">{stat.label}</div>
-                        </motion.div>
-                      ))}
-                    </CardItem>
+              <motion.p
+                initial={{ opacity: 0, x: -20 }}
+                animate={isInView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                className="text-lg md:text-xl leading-relaxed text-gray-300 pl-6"
+              >
+                Beyond coding, I thrive in <span className="font-semibold text-white">hackathons</span>, enjoy exploring cutting-edge AI models, and love analyzing datasets to uncover actionable insights. With <span className="font-semibold bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent">100% passion</span> for learning and creating, I’m constantly pushing the boundaries of what technology can achieve.
+              </motion.p>
+            </div>
 
-                    {/* CTA Button */}
-                    <CardItem translateZ="50" className="pt-4">
-                      <motion.button
-                        onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-                        className="group w-full lg:w-auto px-8 lg:px-10 py-4 lg:py-5 rounded-2xl text-white font-bold text-lg bg-gradient-to-r from-emerald-600/30 to-teal-600/30 backdrop-blur-xl border border-white/40 hover:from-emerald-500/40 hover:to-teal-500/40 hover:border-white/50 transition-all duration-500 shadow-xl hover:shadow-emerald-500/25 relative overflow-hidden"
-                        whileHover={{ scale: 1.02, y: -2 }}
-                        whileTap={{ scale: 0.98 }}
-                      >
-                        <span className="relative z-10 flex items-center justify-center gap-3">
-                          Let's Work Together 
-                          <motion.span 
-                            className="inline-block"
-                            animate={{ x: [0, 5, 0] }}
-                            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                          >
-                            →
-                          </motion.span>
-                        </span>
-                        <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/10 to-teal-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                      </motion.button>
-                    </CardItem>
+            {/* Stats */}
+            <motion.div variants={itemVariants} className="grid grid-cols-3 gap-8">
+              {stats.map((stat, index) => (
+                <motion.div
+                  key={index}
+                  className="group p-6 rounded-3xl border border-white/20 text-center bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md hover:border-white/30 transition-all duration-500"
+                  whileHover={{ scale: 1.05, y: -5 }}
+                >
+                  <div className={`text-4xl md:text-5xl font-bold bg-gradient-to-r ${stat.color} bg-clip-text text-transparent mb-2`}>
+                    {stat.value}
+                  </div>
+                  <div className="text-base text-gray-300 font-semibold">{stat.label}</div>
+                </motion.div>
+              ))}
+            </motion.div>
 
-                  </motion.div>
-                </div>
-
-              </CardItem>
-            </CardBody>
-          </CardContainer>
+            {/* CTA */}
+            <motion.div variants={itemVariants} className="pt-4">
+              <motion.button
+                onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                className="group px-10 py-5 rounded-3xl text-white font-bold text-lg bg-gradient-to-r from-emerald-600/20 to-teal-600/20 backdrop-blur-xl border border-white/30 hover:from-emerald-500/30 hover:to-teal-500/30 hover:border-white/40 transition-all duration-500 shadow-2xl hover:shadow-emerald-500/25 relative overflow-hidden"
+                whileHover={{ scale: 1.02, y: -3 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <span className="relative z-10 flex items-center gap-3">
+                  Let’s Work Together 
+                  <motion.span 
+                    className="inline-block"
+                    animate={{ x: [0, 5, 0] }}
+                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                  >
+                    →
+                  </motion.span>
+                </span>
+                <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/10 to-teal-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              </motion.button>
+            </motion.div>
+          </motion.div>
         </motion.div>
       </div>
     </section>
